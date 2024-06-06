@@ -17,10 +17,10 @@ export class UserController {
   }
 
   @Get('/get-all')
-  findAll(@Query('limit') limit: string, @Query('offset') offset: string) {
+  findAll(@Query('limit') limit: string, @Query('page') page: string) {
     const limitNumber = parseInt(limit, 10) || 10; 
-    const offsetNumber = parseInt(offset, 10) || 0;
-    return this.userService.findAll(limitNumber, offsetNumber);
+    const pageNumber = parseInt(page, 10) || 0;
+    return this.userService.findAll(limitNumber, pageNumber);
   }
 
   @Get(':id')
