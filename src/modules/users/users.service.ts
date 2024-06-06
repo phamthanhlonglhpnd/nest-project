@@ -40,6 +40,8 @@ export class UserService {
       return await this.userRepository.find({
         take: limit,
         skip: (page-1) * limit,
+        relations: ['meetings'],
+        relationLoadStrategy: 'query'
       });
     } catch (error) {
       handleThrowError(error);
