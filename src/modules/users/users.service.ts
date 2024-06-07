@@ -35,14 +35,25 @@ export class UserService {
     }
   }
 
-  async findAll(limit: number, page: number): Promise<User[]> {
+  async findAll(
+    limit: number,
+    page: number,
+  ): Promise<{
+    data: User[];
+    hasMoreData: boolean;
+  }> {
     try {
-      return await this.userRepository.find({
+      const [users, total] = await this.userRepository.findAndCount({
         take: limit,
-        skip: (page-1) * limit,
+        skip: (page - 1) * limit,
         relations: ['meetings'],
-        relationLoadStrategy: 'query'
+        relationLoadStrategy: 'query',
       });
+      const hasMoreData = page * limit < total;
+      return {
+        data: users,
+        hasMoreData,
+      };
     } catch (error) {
       handleThrowError(error);
     }
