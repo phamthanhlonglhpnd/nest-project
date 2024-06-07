@@ -59,16 +59,16 @@ export class MeetingService {
           if (!user) {
             throw new NotFoundException('User not found');
           }
-          // if (
-          //   meetingData.startDay < 1 ||
-          //   meetingData.endDay < 1 ||
-          //   meetingData.startDay > meetingData.endDay ||
-          //   meetingData.endDay > user.days
-          // ) {
-          //   throw new BadRequestException(
-          //     "Invalid meeting days: start_day and end_day must be within the user's available days, and start_day must be less than or equal to end_day.",
-          //   );
-          // }
+          if (
+            meetingData.startDay < 1 ||
+            meetingData.endDay < 1 ||
+            meetingData.startDay > meetingData.endDay ||
+            meetingData.endDay > user.days
+          ) {
+            throw new BadRequestException(
+              "Invalid meeting days: start_day and end_day must be within the user's available days, and start_day must be less than or equal to end_day.",
+            );
+          }
           const meeting = this.meetingRepository.create(meetingData);
           meeting.user = user;
           meeting.userId = user.id;
